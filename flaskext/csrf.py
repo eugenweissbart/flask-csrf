@@ -40,7 +40,11 @@ def csrf(app, on_csrf=None):
     def _csrf_protect():
         if request.method in ("POST", "DELETE", "PUT") and not g._csrf_exempt:
             csrf_secret = session.get('_csrf_secret')
-            csrf_token = request.form.get('_csrf_token') or request.headers.get('X-CSRF-Token')
+            csrf_token = (
+                    request.form.get('_csrf_token') or
+                    request.headers.get('X-CSRF-Token') or 
+                    request.headers.get('X-CSRFToken')
+            )
 
             if is_csrf_token_bad(csrf_token, csrf_secret):
                 if on_csrf:
