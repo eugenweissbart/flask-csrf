@@ -38,6 +38,8 @@ def csrf(app, on_csrf=None):
     
     @app.before_request
     def _csrf_protect():
+        if app.config.get('TESTING'):
+            return
         if request.method in ("POST", "DELETE", "PUT") and not g._csrf_exempt:
             csrf_secret = session.get('_csrf_secret')
             csrf_token = (
