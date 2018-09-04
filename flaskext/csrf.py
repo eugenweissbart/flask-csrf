@@ -87,8 +87,8 @@ def csrf(app, on_csrf=None):
 
         jsw = JSONWebSignatureSerializer(app.secret_key)
         token = jsw.dumps({
-            "n": b64encode(nonce),
-            "k": b64encode(int_to_bytes(nonce_int ^ secret_int))
+            "n": str(b64encode(nonce), 'utf-8'),
+            "k": str(b64encode(int_to_bytes(nonce_int ^ secret_int)), 'utf-8')
         })
 
         return token
